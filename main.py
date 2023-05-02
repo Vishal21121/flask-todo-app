@@ -13,7 +13,7 @@ app = Flask(__name__)
 # reading the content of the userSchema
 with open ('./models/userSchema.json') as f:
     schema = json.load(f)
-    print(schema)
+    # print(schema)
 
 # adding user 
 @app.route('/addUser',methods=['POST'])
@@ -39,6 +39,31 @@ def addUser():
     except Exception as err:
         print(err)
         return jsonify({"message":"Internal server error"}), 500
+    
+# login user endpoint
+@app.route('/login', methods=['POST'])
+def login():
+    # storing the data passed 
+    data = request.json
+    try:
+        # finding the user with the passed email id
+        user = collection.find_one({"email":data["email"]})
+        print(user)
+        # if user is not found then return credentials error
+        if(user == None):
+            return jsonify({"message":"Please enter correct credentials"}), 404
+        # else check whether the password is correct
+        if bcrypt.checkpw(data["password"].encode("utf-8"),user["password"].encode("utf-8")):
+            # print("same")
+            # if password is correct then send success message
+            return jsonify({"message":"success"}), 200
+        else:
+            # else return incorrect credentials message
+            return jsonify({"message":"Please enter correct credentials"}), 404
+    except Exception as err:
+        print(err)
+        # catch exception and return
+        return jsonify({"message":"error"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True,port=8081)
