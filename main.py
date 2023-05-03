@@ -1,11 +1,14 @@
 from flask import Flask, jsonify, request
 from jsonschema import Draft7Validator
+from bson import ObjectId
 import db
 import json
 import bcrypt
 
 # getting the collection from db
-collection = db.connect()
+db = db.connect()
+collection = db['User']
+todoCollection = db['Todo']
 
 # creating a new instance of flask 
 app = Flask(__name__)
@@ -13,6 +16,11 @@ app = Flask(__name__)
 # reading the content of the userSchema
 with open ('./models/userSchema.json') as f:
     schema = json.load(f)
+    # print(schema)
+
+# reading the content of the todoSchema
+with open ('./models/todoSchema.json') as f:
+    todoSchema = json.load(f)
     # print(schema)
 
 # adding user 
@@ -66,6 +74,37 @@ def login():
         print(err)
         # catch exception and return
         return jsonify({"message":"error"}), 500
+    
+# add Todo
+@app.route("/addTodo", methods=["POST"])
+def addTodo():
+    # storing the value send as request body to data
+    data = request.json
+    # validating the request body content
+    validator = Draft7Validator(todoSchema)
+    # storing errors 
+    errors = list(validator.iter_errors(data))
+    print(errors)
+    # if errors are found
+    if len(errors) != 0:
+        return jsonify({"message":"enter complete information"}), 404
+    try:
+        # taking the userid from the request body
+        userid = data["userid"]
+        # getting the user with the userid
+        user = collection.find_one({"_id":ObjectId(userid)})
+        # if user is found then add the todo with the given userid
+        if user is not None:
+            todoCollection.insert_one(data)
+            return jsonify({"message":"success"}), 201
+        else:
+            # return bad request
+            return jsonify({"message":"failure no user exists"}), 404
+    except Exception as e:
+        print(e)
+        return jsonify({"message":"internal server error"}), 500
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True,port=8081)

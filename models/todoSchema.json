@@ -1,8 +1,9 @@
 {
     "type": "object",
     "properties": {
-        "title": {"minLength":5},
-        "description": {"minLength":5},
-        "id": {"type":"string"}
-    }
+        "title": {"minLength":5, "type":"string"},
+        "description": {"minLength":5, "type":"string"},
+        "userid":{"type":"string"}
+    },
+    "required": ["title","description","userid"]
 }
