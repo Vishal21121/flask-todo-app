@@ -1,0 +1,8 @@
+{
+    "type": "object",
+    "properties": {
+        "title": {"minLength":5},
+        "description": {"minLength":5},
+        "id": {"type":"string"}
+    }
+}

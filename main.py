@@ -22,10 +22,10 @@ def addUser():
     # creating the validator instance
     validator = Draft7Validator(schema)
     # storing errors 
-    errors = list(validator.iter_errors(request.json))
+    errors = list(validator.iter_errors(data))
     print(errors)
     if len(errors) != 0:
-        return jsonify({"message":"some error occurred"})
+        return jsonify({"message":"enter complete information"}), 404
     try:
         val = data["password"]
         # encoding the password for converting it into hash
@@ -45,13 +45,15 @@ def addUser():
 def login():
     # storing the data passed 
     data = request.json
+    if 'email' not in data or 'password' not in data:
+        return jsonify({"message":"enter complete information"}), 404
     try:
         # finding the user with the passed email id
         user = collection.find_one({"email":data["email"]})
         print(user)
         # if user is not found then return credentials error
         if(user == None):
-            return jsonify({"message":"Please enter correct credentials"}), 404
+            return jsonify({"message":"Please enter correct credentials"}), 401
         # else check whether the password is correct
         if bcrypt.checkpw(data["password"].encode("utf-8"),user["password"].encode("utf-8")):
             # print("same")
@@ -59,7 +61,7 @@ def login():
             return jsonify({"message":"success"}), 200
         else:
             # else return incorrect credentials message
-            return jsonify({"message":"Please enter correct credentials"}), 404
+            return jsonify({"message":"Please enter correct credentials"}), 401
     except Exception as err:
         print(err)
         # catch exception and return
