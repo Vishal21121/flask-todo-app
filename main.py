@@ -103,7 +103,22 @@ def addTodo():
     except Exception as e:
         print(e)
         return jsonify({"message":"internal server error"}), 500
-    
+
+# get the todos based on userid
+@app.route('/getTodo/<userid>', methods=['GET'])
+def getTodos(userid):
+    # getting all the todos with the userid provided
+    todos = todoCollection.find({"userid":userid})
+    todoList = []
+    if todos is not None:
+        for todo in todos:
+            # appending todo one by one to the todoList
+            todoList.append({"title":todo["title"],"description":todo["description"]})
+        # returning all the todos
+        return jsonify({"data":todoList})
+    else:
+        # returning nothing to display
+        return jsonify({"message":"nothing to display"})
 
 
 if __name__ == "__main__":
