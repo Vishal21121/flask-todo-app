@@ -4,6 +4,7 @@ from bson import ObjectId
 import db
 import json
 import bcrypt
+import time
 
 # getting the collection from db
 db = db.connect()
@@ -35,15 +36,19 @@ def addUser():
     if len(errors) != 0:
         return jsonify({"message":"enter complete information"}), 404
     try:
-        val = data["password"]
-        # encoding the password for converting it into hash
-        password = val.encode("utf-8")
-        # got the hashed password but we need to decode it to get it in string format
-        hashedPassword = bcrypt.hashpw(password,bcrypt.gensalt()).decode("utf-8")
-        print(hashedPassword)
-        # insert the user into the collection
-        collection.insert_one({"name":data["name"],"email":data["email"], "password":hashedPassword})
-        return jsonify({"message":"success"}), 201
+        user = collection.find_one({"email":data["email"]})
+        if user is None:
+            val = data["password"]
+            # encoding the password for converting it into hash
+            password = val.encode("utf-8")
+            # got the hashed password but we need to decode it to get it in string format
+            hashedPassword = bcrypt.hashpw(password,bcrypt.gensalt()).decode("utf-8")
+            print(hashedPassword)
+            # insert the user into the collection
+            userInsertedVal =  collection.insert_one({"name":data["name"],"email":data["email"], "password":hashedPassword})
+            return jsonify({"status":"success","data":str(userInsertedVal.inserted_id)}), 201
+        else:
+            return jsonify({"status":"failure","message":"A user with this email already exists"}), 404
     except Exception as err:
         print(err)
         return jsonify({"message":"Internal server error"}), 500
@@ -54,55 +59,51 @@ def login():
     # storing the data passed 
     data = request.json
     if 'email' not in data or 'password' not in data:
-        return jsonify({"message":"enter complete information"}), 404
+        return jsonify({"status":"failure","message":"enter complete information"}), 404
     try:
         # finding the user with the passed email id
         user = collection.find_one({"email":data["email"]})
         print(user)
         # if user is not found then return credentials error
         if(user == None):
-            return jsonify({"message":"Please enter correct credentials"}), 401
+            return jsonify({"status":"failure","message":"Please enter correct credentials"}), 401
         # else check whether the password is correct
         if bcrypt.checkpw(data["password"].encode("utf-8"),user["password"].encode("utf-8")):
             # print("same")
             # if password is correct then send success message
-            return jsonify({"message":"success"}), 200
+            print(user["_id"])
+            return jsonify({"status":"success","data":str(user["_id"])}), 200
         else:
             # else return incorrect credentials message
-            return jsonify({"message":"Please enter correct credentials"}), 401
+            return jsonify({"status":"failure","message":"Please enter correct credentials"}), 401
     except Exception as err:
         print(err)
         # catch exception and return
         return jsonify({"message":"error"}), 500
     
 # add Todo
-@app.route("/addTodo", methods=["POST"])
-def addTodo():
+@app.route("/addTodo/<userid>", methods=["POST"])
+def addTodo(userid):
     # storing the value send as request body to data
     data = request.json
-    # validating the request body content
-    validator = Draft7Validator(todoSchema)
-    # storing errors 
-    errors = list(validator.iter_errors(data))
-    print(errors)
-    # if errors are found
-    if len(errors) != 0:
-        return jsonify({"message":"enter complete information"}), 404
+    # checking whether title and description are there in the data
+    if "title" not in data and "label" not in data:
+        return jsonify({"status":"failure","message":"enter complete information"}), 404
     try:
-        # taking the userid from the request body
-        userid = data["userid"]
         # getting the user with the userid
         user = collection.find_one({"_id":ObjectId(userid)})
         # if user is found then add the todo with the given userid
         if user is not None:
-            todoCollection.insert_one(data)
-            return jsonify({"message":"success"}), 201
+            local_time = time.localtime(time.time())
+            finalTime = time.strftime("%d-%m-%Y %H:%M:%S", local_time)
+            insertVal = todoCollection.insert_one({"title":data["title"], "label":data["label"],"createdAt":finalTime})
+            return jsonify({"status":"success","data":str(insertVal.inserted_id)}), 201
         else:
             # return bad request
-            return jsonify({"message":"failure no user exists"}), 404
+            return jsonify({"status":"failure","message":"failure no user exists"}), 404
     except Exception as e:
         print(e)
-        return jsonify({"message":"internal server error"}), 500
+        return jsonify({"status":"failure","message":"internal server error"}), 500
 
 # get the todos based on userid
 @app.route('/getTodo/<userid>', methods=['GET'])
@@ -115,7 +116,7 @@ def getTodos(userid):
             # appending todo one by one to the todoList
             todoList.append({"title":todo["title"],"label":todo["label"]})
         # returning all the todos
-        return jsonify({"data":todoList})
+        return jsonify({"status":"success","data":todoList})
     else:
         # returning nothing to display
         return jsonify({"message":"nothing to display"})

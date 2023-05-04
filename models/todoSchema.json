@@ -3,7 +3,6 @@
     "properties": {
         "title": {"minLength":5, "type":"string"},
         "label": {"minLength":3, "type":"string"},
-        "userid":{"type":"string"}
-    },
-    "required": ["title","label","userid"]
+        "time":{"type":"string"}
+    }
 }
