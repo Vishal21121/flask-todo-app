@@ -113,7 +113,7 @@ def getTodos(userid):
     if todos is not None:
         for todo in todos:
             # appending todo one by one to the todoList
-            todoList.append({"title":todo["title"],"description":todo["description"]})
+            todoList.append({"title":todo["title"],"label":todo["label"]})
         # returning all the todos
         return jsonify({"data":todoList})
     else:
