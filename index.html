@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="input.css">
+</head>
+
+<body>
+    <div class="bg-violet-400 rounded-l-md h-[100vh]">
+        <h1 class="text-white pt-8 mb-2 ml-96 text-4xl font-bold">Create your todo</h1>
+        <div
+            class="w-1/2 bg-violet-50 mx-auto p-2 my-8 rounded-3xl flex flex-col align-middle focus:border-5 border-5 border-red-800 ">
+            <div class="w-full my-1">
+                <input type="text" class="bg-violet-50  w-11/12 text-gray-400 h-4 border-none focus:outline-none pl-4"
+                    placeholder="What's your next task?">
+            </div>
+            <div class="flex">
+                <div class="w-full my-1">
+                    <input type="text"
+                        class="bg-violet-50 w-11/12 text-gray-400 h-4 border-none focus:outline-none pl-4"
+                        placeholder="Label it">
+                </div>
+                <div>
+                    <button
+                        class="text-gray-400 outline outline-violet-700 rounded-xl py-0.5 font-semibold px-4  hover:bg-violet-700 hover:text-white mt-1 mr-4">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div
+                class="w-2/5 bg-violet-50 mx-auto p-2 my-8 rounded-3xl flex flex-col-reverse align-middle focus:border-5 border-5 border-red-800 ">
+                <div class="w-full my-1 flex">
+                    <p class="pl-4 w-9/12">Todo</p>
+                    <p class="pl-4 relative left-12">time</p>
+                </div>
+                <div class="w-full my-1 flex">
+                    <p class="pl-4 w-9/12">Label</p>
+                    <div class="relative left-16">
+                        <input type="checkbox" name="Done" id="" value="done">
+                        <label for="checkbox" class="px-1">Done</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
