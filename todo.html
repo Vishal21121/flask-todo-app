@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="input.css">
+</head>
+
+<body>
+    <div class="bg-gray-700 h-[100vh] max-w-[100vw]">
+        <h1 class="text-gray-500 pt-8 mb-2 relative left-[30vw] text-4xl font-semibold max-w-max">Todo List</h1>
+            <div
+                class="w-2/5 bg-gray-900 mx-auto p-2 my-8 rounded-3xl flex align-middle focus:border-5 border-5 border-red-800 ">
+                <div class="w-full">
+                    <input type="text"
+                        class="bg-gray-900  w-11/12 text-gray-400 h-8 border-none focus:outline-none pl-4"
+                        placeholder="What's your next task?" 
+                        id="input" value=""
+                        >
+                </div>
+                <button
+                    class="text-gray-400 outline outline-violet-700 rounded-xl py-0.5 font-semibold px-4  hover:bg-violet-700 hover:text-white mt-1 mr-4" id="submit">CLOSE
+                </button>
+            </div>
+            <h1 class="text-gray-500 pt-8  relative left-[30vw] text-4xl font-semibold max-w-max">Tasks</h1>
+
+            <!-- SAVED TODOS -->
+            <div class="flex flex-col items-center" id="todoContainer">
+            
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -2,53 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="input.css">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="input.css" />
+  <title>Document</title>
 </head>
 
-<body>
-    <div class="bg-violet-400 rounded-l-md h-[100vh]">
-        <h1 class="text-white pt-8 mb-2 ml-96 text-4xl font-bold">Create your todo</h1>
-        <div
-            class="w-1/2 bg-violet-50 mx-auto p-2 my-8 rounded-3xl flex flex-col align-middle focus:border-5 border-5 border-red-800 ">
-            <div class="w-full my-1">
-                <input type="text" class="bg-violet-50  w-11/12 text-gray-400 h-4 border-none focus:outline-none pl-4"
-                    placeholder="What's your next task?">
-            </div>
-            <div class="flex">
-                <div class="w-full my-1">
-                    <input type="text"
-                        class="bg-violet-50 w-11/12 text-gray-400 h-4 border-none focus:outline-none pl-4"
-                        placeholder="Label it">
-                </div>
-                <div>
-                    <button
-                        class="text-gray-400 outline outline-violet-700 rounded-xl py-0.5 font-semibold px-4  hover:bg-violet-700 hover:text-white mt-1 mr-4">Close
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div
-                class="w-2/5 bg-violet-50 mx-auto p-2 my-8 rounded-3xl flex flex-col-reverse align-middle focus:border-5 border-5 border-red-800 ">
-                <div class="w-full my-1 flex">
-                    <p class="pl-4 w-9/12">Todo</p>
-                    <p class="pl-4 relative left-12">time</p>
-                </div>
-                <div class="w-full my-1 flex">
-                    <p class="pl-4 w-9/12">Label</p>
-                    <div class="relative left-16">
-                        <input type="checkbox" name="Done" id="" value="done">
-                        <label for="checkbox" class="px-1">Done</label>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body class="bg-gray-700 bg-[url('z63mya.jpg')] h-[60vh] box-border">
+  <div class="w-4/12 mx-auto my-48">
+    <div class="mx-auto w-9/12 bg-gray-900  rounded-2xl py-6  mb-4">
+      <p class="text-white text-lg mx-12">Email</p>
+      <div class="w-3/4 mx-auto mb-2 mt-1 flex bg-[rgb(71,121,190,0.4)] rounded-2xl items-center">
+        <input type="text" name="email" id="email"
+          class="w-full rounded-2xl text-white text-center h-9 bg-[rgb(71,121,190,0.3)] focus:outline-none" />
+      </div>
+      <p class="text-lg text-white mx-12">Password</p>
+      <div class="w-3/4 mx-auto mt-1 bg-[rgb(71,121,190,0.3)] rounded-2xl items-center">
+        <input type="password" name="Password" id="password"
+          class="w-full rounded-2xl h-9 text-white bg-[rgb(71,121,190,0.3)] focus:outline-none text-center" />
+      </div>
+      <button class="bg-white mx-12 w-3/4 my-4 p-2 rounded-2xl text-[rgb(71,121,190)]  hover:font-bold text-lg"  id="signin">
+        Sign in
+      </button>
     </div>
-
+  </div>
 </body>
 
 </html>

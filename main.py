@@ -87,7 +87,7 @@ def addTodo(userid):
     # storing the value send as request body to data
     data = request.json
     # checking whether title and description are there in the data
-    if "title" not in data and "label" not in data:
+    if "title" not in data:
         return jsonify({"status":"failure","message":"enter complete information"}), 404
     try:
         # getting the user with the userid
@@ -96,7 +96,7 @@ def addTodo(userid):
         if user is not None:
             local_time = time.localtime(time.time())
             finalTime = time.strftime("%d-%m-%Y %H:%M:%S", local_time)
-            insertVal = todoCollection.insert_one({"title":data["title"], "label":data["label"],"createdAt":finalTime})
+            insertVal = todoCollection.insert_one({"title":data["title"],"userid":userid,"createdAt":finalTime})
             return jsonify({"status":"success","data":str(insertVal.inserted_id)}), 201
         else:
             # return bad request
@@ -108,13 +108,17 @@ def addTodo(userid):
 # get the todos based on userid
 @app.route('/getTodo/<userid>', methods=['GET'])
 def getTodos(userid):
+    print("hello")
     # getting all the todos with the userid provided
     todos = todoCollection.find({"userid":userid})
+    print(todos)
     todoList = []
     if todos is not None:
+        print("entered inside ")
         for todo in todos:
+            print(todo)
             # appending todo one by one to the todoList
-            todoList.append({"title":todo["title"],"label":todo["label"]})
+            todoList.append({"title":todo["title"]})
         # returning all the todos
         return jsonify({"status":"success","data":todoList})
     else:
