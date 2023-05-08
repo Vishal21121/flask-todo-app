@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from jsonschema import Draft7Validator
 from bson import ObjectId
+from flask_cors import CORS
 import db
 import json
 import bcrypt
@@ -13,7 +14,7 @@ todoCollection = db['Todo']
 
 # creating a new instance of flask 
 app = Flask(__name__)
-
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}})
 # reading the content of the userSchema
 with open ('./models/userSchema.json') as f:
     schema = json.load(f)
