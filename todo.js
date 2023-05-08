@@ -1,14 +1,14 @@
 (function(){
     document.getElementById('submit').addEventListener("click", (e)=>{
         let val = document.getElementById("input").value
-        addVal(val)
+        addTodo(val)
     })
     
     document.getElementById('input').addEventListener("keyup", (event)=>{
         let val = document.getElementById("input").value
         if (event.key === 'Enter') {
             console.log(val);
-            addVal(val)
+            addTodo(val)
         }
     })
     addVal()
@@ -20,11 +20,24 @@ async function todoFetch(){
     return response
 }
 
-
+async function addTodo(val){
+    let userid = localStorage.getItem("userid")
+    let response = await fetch(`http://localhost:8081/addTodo/${userid}`,{
+        mode:'cors',
+        method:'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({"title":val})
+    })
+    addVal()
+    
+}
 
 async function addVal(){
     let response = await todoFetch()
     let data = await response.json()
+    document.getElementById("todoContainer").innerHTML = ''
     data.data.forEach(({title}) => {
         document.getElementById("todoContainer").innerHTML += `
     <div
