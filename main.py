@@ -119,13 +119,26 @@ def getTodos(userid):
         for todo in todos:
             print(todo)
             # appending todo one by one to the todoList
-            todoList.append({"title":todo["title"]})
+            todoList.append({"title":todo["title"], "todoId":str(todo["_id"])})
         # returning all the todos
         return jsonify({"status":"success","data":todoList})
     else:
         # returning nothing to display
         return jsonify({"message":"nothing to display"})
 
+
+@app.route("/deleteTodo/<todoId>")
+def deleteTodo(todoId):
+    # finding the todo
+    todo = todoCollection.find_one({"_id":ObjectId(todoId)})
+    # if todo with given id is present
+    if(todo is not None):
+        # getting the response on delete
+        response = todoCollection.delete_one({"_id":ObjectId(todoId)})
+        if response.acknowledged:
+            return jsonify({"status":"success","message":"deleted the todo with id:"+todoId})
+    else:
+        return jsonify({"status":"false","message":"no todo found with id:"+todoId}), 404
 
 if __name__ == "__main__":
     app.run(debug=True,port=8081)
