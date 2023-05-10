@@ -35,7 +35,7 @@ def addUser():
     errors = list(validator.iter_errors(data))
     print(errors)
     if len(errors) != 0:
-        return jsonify({"message":"enter complete information"}), 404
+        return jsonify({"message":"enter complete information"}), 400
     try:
         user = collection.find_one({"email":data["email"]})
         if user is None:
@@ -49,7 +49,7 @@ def addUser():
             userInsertedVal =  collection.insert_one({"name":data["name"],"email":data["email"], "password":hashedPassword})
             return jsonify({"status":"success","data":str(userInsertedVal.inserted_id)}), 201
         else:
-            return jsonify({"status":"failure","message":"A user with this email already exists"}), 404
+            return jsonify({"status":"failure","message":"A user with this email already exists"}), 401
     except Exception as err:
         print(err)
         return jsonify({"message":"Internal server error"}), 500
@@ -60,7 +60,7 @@ def login():
     # storing the data passed 
     data = request.json
     if 'email' not in data or 'password' not in data:
-        return jsonify({"status":"failure","message":"enter complete information"}), 404
+        return jsonify({"status":"failure","message":"enter complete information"}), 400
     try:
         # finding the user with the passed email id
         user = collection.find_one({"email":data["email"]})
@@ -87,9 +87,11 @@ def login():
 def addTodo(userid):
     # storing the value send as request body to data
     data = request.json
+    if len(data["title"]) == 0:
+        return jsonify({"status":"failure","message":"passed empty value"}), 400
     # checking whether title and description are there in the data
     if "title" not in data:
-        return jsonify({"status":"failure","message":"enter complete information"}), 404
+        return jsonify({"status":"failure","message":"enter complete information"}), 400
     try:
         # getting the user with the userid
         user = collection.find_one({"_id":ObjectId(userid)})
