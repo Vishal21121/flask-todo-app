@@ -1,5 +1,5 @@
 from bson import ObjectId
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 import time
 
 def addTodo(userid,collection,todoCollection):
@@ -55,3 +55,13 @@ def deleteTodo(todoId,todoCollection):
             return jsonify({"status":"success","message":"deleted the todo with id:"+todoId})
     else:
         return jsonify({"status":"false","message":"no todo found with id:"+todoId}), 404
+
+def updateTodo(todoId,todoCollection):
+    data = request.json
+    todo = todoCollection.find_one({"_id":ObjectId(todoId)})
+    if todo is not None:
+        new_values = {"$set": {"title": data["title"]}}
+        todoCollection.update_one({"_id":ObjectId(todoId)},new_values)
+        return jsonify({"status":"success","message":f"updated todo with todo id {todoId}"})
+    else:
+        return jsonify({"status":"failure","message":"not updated any document"})

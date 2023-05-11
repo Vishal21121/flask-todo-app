@@ -3,7 +3,7 @@ from flask_cors import CORS
 import db
 import json
 from routes.User import addUser, login
-from routes.Todo import addTodo,getTodos,deleteTodo
+from routes.Todo import addTodo,getTodos,deleteTodo,updateTodo
 
 # getting the collection from db
 db = db.connect()
@@ -44,9 +44,13 @@ def fetchTodo(userid):
     return getTodos(userid,todoCollection)
 
 
-@app.route("/deleteTodo/<todoId>")
+@app.route("/deleteTodo/<todoId>",methods=["DELETE"])
 def removeTodo(todoId):
     return deleteTodo(todoId,todoCollection)
+
+@app.route("/updateTodo/<todoId>",methods = ["PATCH"])
+def modifyTodo(todoId):
+   return updateTodo(todoId,todoCollection)
 
 if __name__ == "__main__":
     app.run(debug=True,port=8081)
