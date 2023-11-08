@@ -3,15 +3,11 @@
         document.getElementById("btn").addEventListener("click", async () => {
             let email = document.getElementById("email").value
             let password = document.getElementById("password").value
-            let response = await fetch("http://localhost:8081/login", {
-                headers: { "Content-Type": "application/json" },
-                method: "POST",
-                body: JSON.stringify({
-                    "email": email,
-                    "password": password
-                })
-            })
-            let data = await response.json()
+            const body = {
+                "email": email,
+                "password": password
+            }
+            let data = await callApi(body, "http://localhost:8081/login")
             if (data["status"] == "success") {
                 let userid = data["data"]
                 console.log(userid);
@@ -50,23 +46,17 @@
             }
         })
 
-
-        //  adding the elements inside the same login form
-        // document.getElementById("signup").addEventListener("click",()=>{
-        //     let p = document.createElement("p")
-        //     p.setAttribute("class","text-lg text-white mx-12")
-        //     p.innerText = "Name"
-        //     console.log(p);
-        //     let input = document.createElement("input")
-        //     input.setAttribute("type","text")
-        //     input.setAttribute("class","w-full rounded-2xl h-9 text-white bg-[rgb(71,121,190,0.3)] focus:outline-none text-center")
-        //     let div = document.createElement("div")
-        //     div.setAttribute("class","w-3/4 mx-auto mt-1 bg-[rgb(71,121,190,0.3)] rounded-2xl items-center")
-        //     div.append(input)
-        //     console.log(div);
-        //     document.getElementById("pemail").parentNode.insertBefore(p,document.getElementById("pemail"))
-        //     document.getElementById("pemail").parentNode.insertBefore(div,document.getElementById("pemail"))
-        // })
     }
 )()
+
+async function callApi(body, url) {
+    console.log({ "email": body.email });
+    const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    })
+    return await response.json()
+}
 
