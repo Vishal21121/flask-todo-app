@@ -1,23 +1,23 @@
 (
-    function(){
-        document.getElementById("signin").addEventListener("click",async ()=>{
+    function () {
+        document.getElementById("btn").addEventListener("click", async () => {
             let email = document.getElementById("email").value
             let password = document.getElementById("password").value
-            let response = await fetch("http://localhost:8081/login",{
-                    headers:{"Content-Type":"application/json"},
-                    method: "POST",
-                    body: JSON.stringify({
-                        "email": email,
-                        "password": password
-                    })
+            let response = await fetch("http://localhost:8081/login", {
+                headers: { "Content-Type": "application/json" },
+                method: "POST",
+                body: JSON.stringify({
+                    "email": email,
+                    "password": password
+                })
             })
             let data = await response.json()
-            if (data["status"]=="success"){
+            if (data["status"] == "success") {
                 let userid = data["data"]
                 console.log(userid);
                 localStorage.setItem("userid", userid)
                 location.href = location.origin + "/todo.html"
-            }else{
+            } else {
                 document.getElementById("alert").innerHTML = `<div class="w-4/12 bg-orange-800 m-auto my-4 p-0 rounded-2xl">
                 <div class="my-4 py-1">
                     <span
@@ -30,12 +30,27 @@
                 </div>
             
             </div>`
-            setTimeout(()=>{
-                document.getElementById("alert").innerHTML = ''
-            },3000)
+                setTimeout(() => {
+                    document.getElementById("alert").innerHTML = ''
+                }, 3000)
             }
-           
+
         })
+
+        document.getElementById("signup").addEventListener("click", async () => {
+            document.getElementById("name").classList.toggle("hidden")
+            let btnElement = document.getElementById("btn")
+            let switchElement = document.getElementById("signup")
+            if (btnElement.innerText === "Sign in") {
+                btnElement.innerText = "Sign up"
+                switchElement.innerText = "Signin"
+            } else {
+                btnElement.innerText = "Sign in"
+                switchElement.innerText = "Signup"
+            }
+        })
+
+
         //  adding the elements inside the same login form
         // document.getElementById("signup").addEventListener("click",()=>{
         //     let p = document.createElement("p")
