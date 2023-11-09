@@ -3,11 +3,31 @@
         document.getElementById("btn").addEventListener("click", async () => {
             let email = document.getElementById("email").value
             let password = document.getElementById("password").value
-            const body = {
-                "email": email,
-                "password": password
+            let name;
+            if (document.getElementById("nameInput")) {
+                name = document.getElementById("nameInput").value
             }
-            let data = await callApi(body, "http://localhost:8081/login")
+
+            let data;
+            if (document.getElementById("btn").innerText === "Sign up") {
+                console.log("Sign up");
+                const body = {
+                    "name": name,
+                    "email": email,
+                    "password": password
+                }
+                console.log({ body });
+                data = await callApi(body, "http://localhost:8081/addUser")
+            } else {
+                const body = {
+                    "email": email,
+                    "password": password
+                }
+                data = await callApi(body, "http://localhost:8081/login")
+            }
+            document.getElementById("email").value = ""
+            document.getElementById("nameInput").value = ""
+            document.getElementById("password").value = ""
             if (data["status"] == "success") {
                 let userid = data["data"]
                 console.log(userid);
@@ -21,7 +41,7 @@
                         Warning
                     </span>
                     <span class="mx-2 text-lg font-semi-bold rounded-2xl px-3 text-white my-2">
-                        Enter correct credentials
+                        ${data["message"]}
                     </span>
                 </div>
             
