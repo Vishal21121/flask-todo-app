@@ -11,26 +11,29 @@
 
 <body class="bg-gray-700">
     <div class=" h-[100vh] max-w-[100vw]">
-        <h1 class="text-gray-500 pt-8 mb-2 relative left-[30vw] text-4xl font-semibold max-w-max">Todo List</h1>
-            <div
-                class="w-2/5 bg-gray-900 mx-auto p-2 my-8 rounded-3xl flex align-middle focus:border-5 border-5 border-red-800 ">
-                <div class="w-full">
-                    <input type="text"
-                        class="bg-gray-900  w-11/12 text-gray-400 h-8 border-none focus:outline-none pl-4"
-                        placeholder="What's your next task?" 
-                        id="input" value=""
-                        >
-                </div>
-                <button
-                    class="text-gray-400 outline outline-violet-700 rounded-xl py-0.5 font-semibold px-4  hover:bg-violet-700 hover:text-white mt-1 mr-4" id="submit">CLOSE
-                </button>
-            </div>
-            <h1 class="text-gray-500 pt-8  relative left-[30vw] text-4xl font-semibold max-w-max">Tasks</h1>
+        <div class="flex justify-center gap-8 p-8">
+            <h1 class="text-gray-500 mb-2 text-4xl font-semibold max-w-max">Todo List</h1>
+            <button
+                class="w-fit h-10 px-4 rounded-md bg-red-500 text-white hover:bg-red-600 relative -right-[200px]">Logout</button>
+        </div>
 
-            <!-- SAVED TODOS -->
-            <div class="flex flex-col items-center" id="todoContainer">
-            
+        <div
+            class="w-2/5 bg-gray-900 mx-auto p-2 my-8 rounded-3xl flex align-middle focus:border-5 border-5 border-red-800 ">
+            <div class="w-full">
+                <input type="text" class="bg-gray-900  w-11/12 text-gray-400 h-8 border-none focus:outline-none pl-4"
+                    placeholder="What's your next task?" id="input" value="">
             </div>
+            <button
+                class="text-gray-400 outline outline-violet-700 rounded-xl py-0.5 font-semibold px-4  hover:bg-violet-700 hover:text-white mt-1 mr-4"
+                id="submit">CLOSE
+            </button>
+        </div>
+        <h1 class="text-gray-500 pt-8  relative left-[30vw] text-4xl font-semibold max-w-max">Tasks</h1>
+
+        <!-- SAVED TODOS -->
+        <div class="flex flex-col items-center" id="todoContainer">
+
+        </div>
     </div>
     <script src="todo.js"></script>
 </body>

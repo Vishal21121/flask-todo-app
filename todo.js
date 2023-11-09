@@ -46,17 +46,17 @@ async function updateTodo(editable) {
             buttonEl.textContent = "SAVE";
             event.target.parentNode.appendChild(buttonEl);
             let contentElement = event.target.parentNode.firstElementChild.firstElementChild
-            contentElement.setAttribute("contenteditable","true")
-            document.getElementById('save').addEventListener("click",async ()=>{
+            contentElement.setAttribute("contenteditable", "true")
+            document.getElementById('save').addEventListener("click", async () => {
                 let val = contentElement.innerText
                 let todoId = contentElement.id
-                const response = await fetch(`http://localhost:8081/updateTodo/${todoId}`,{
-                    method:'cors',
-                    method:"PATCH",
-                    headers:{
-                        "Content-Type":"application/json"
+                const response = await fetch(`http://localhost:8081/updateTodo/${todoId}`, {
+                    method: 'cors',
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
                     },
-                    body:JSON.stringify({"title":val})
+                    body: JSON.stringify({ "title": val })
                 })
                 insertTodos()
             })
@@ -70,7 +70,7 @@ function addListener() {
     deleteTodo(deleatable)
     let editable = document.getElementsByClassName("edit")
     updateTodo(editable)
-    
+
 }
 
 async function todoFetch() {
@@ -96,6 +96,7 @@ async function addTodo(val) {
 }
 
 async function insertTodoId(title, id) {
+    //TODO: add svgs in place of buttons
     document.getElementById("todoContainer").innerHTML += `
     <div
                 class="w-1/2 bg-gray-900 ml-40 p-2 my-4 rounded-3xl flex justify-center focus:border-5 border-5 border-red-800 ">
@@ -119,6 +120,7 @@ async function insertTodos() {
     let data = await response.json()
     document.getElementById("todoContainer").innerHTML = ''
     data.data.forEach(({ title, todoId }) => {
+        //TODO: add svgs in place of buttons
         document.getElementById("todoContainer").innerHTML += `
             <div
                 class="w-1/2 bg-gray-900 ml-40 p-2 my-4 rounded-3xl flex justify-center focus:border-5 border-5 border-red-800 ">
