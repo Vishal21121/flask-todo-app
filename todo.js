@@ -1,5 +1,8 @@
 (function () {
 
+    if (!localStorage.getItem("userid")) {
+        window.location.href = window.origin + "/login"
+    }
     insertTodos()
 
     document.getElementById('submit').addEventListener("click", (e) => {
@@ -139,3 +142,9 @@ async function insertTodos() {
     document.getElementById("input").value = ''
 
 }
+
+// TODO: add logout functionality
+document.getElementById("logout").addEventListener("click", () => {
+    localStorage.removeItem("userid")
+    window.location.href = window.origin + "/login"
+})

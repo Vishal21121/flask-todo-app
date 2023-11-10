@@ -1,5 +1,8 @@
 (
     function () {
+        if (localStorage.getItem("userid")) {
+            window.location.href = window.origin + "/todo.html"
+        }
         document.getElementById("btn").addEventListener("click", async () => {
             let email = document.getElementById("email").value
             let password = document.getElementById("password").value
